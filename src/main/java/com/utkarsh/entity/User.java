@@ -1,15 +1,16 @@
 package com.utkarsh.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity   // tells Spring: this class = database table
 @Table(name = "users") // table name in DB
 public class User {
 
-    @Id  // primary key
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;   // unique number for each user
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -22,21 +23,23 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    // Constructor (empty)
-    public User() {}
+    public User() {
+    }
 
-    // Constructor (for easy object creation)
-    public User(String name, String email, String password) {
+    public User(Long id, String name, String email, String password, LocalDateTime createdAt) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = createdAt;
     }
-
-    // Getters & Setters
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -45,10 +48,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getEmail() {

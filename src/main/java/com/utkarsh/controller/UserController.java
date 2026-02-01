@@ -1,5 +1,6 @@
 package com.utkarsh.controller;
 
+import com.utkarsh.dto.UserResponseDto;
 import com.utkarsh.entity.User;
 import com.utkarsh.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -15,17 +16,14 @@ public class UserController {
 
     private final UserService userService;
 
-    // Constructor injection
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    // API to register user
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
+    public ResponseEntity<UserResponseDto> registerUser(@RequestBody User user){
 
-        User savedUser = userService.registerUser(user);
-
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        UserResponseDto response = userService.registerUser(user);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
