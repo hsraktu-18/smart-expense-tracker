@@ -1,5 +1,6 @@
 package com.utkarsh.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -11,23 +12,35 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private Double amount;
+    private String category;
     private LocalDate expenseDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     public Expense() {
     }
 
-    public Expense(Long id, String title, Double amount, LocalDate expenseDate, User user) {
+    public Expense(Long id, String title, Double amount, String category, LocalDate expenseDate, User user) {
         this.id = id;
         this.title = title;
         this.amount = amount;
+        this.category = category;
         this.expenseDate = expenseDate;
         this.user = user;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Long getId() {
