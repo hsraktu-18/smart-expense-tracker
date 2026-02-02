@@ -1,5 +1,7 @@
 package com.utkarsh.controller;
 
+import com.utkarsh.dto.LoginRequestDto;
+import com.utkarsh.dto.LoginResponseDto;
 import com.utkarsh.dto.UserResponseDto;
 import com.utkarsh.entity.User;
 import com.utkarsh.service.UserService;
@@ -25,5 +27,13 @@ public class UserController {
 
         UserResponseDto response = userService.registerUser(user);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(
+            @RequestBody LoginRequestDto loginRequestDto){
+
+        LoginResponseDto response = userService.login(loginRequestDto);
+        return  ResponseEntity.ok(response);
     }
 }

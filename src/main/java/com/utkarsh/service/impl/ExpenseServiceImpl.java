@@ -6,11 +6,14 @@ import com.utkarsh.entity.User;
 import com.utkarsh.repository.ExpenseRepository;
 import com.utkarsh.repository.UserRepository;
 import com.utkarsh.service.ExpenseService;
+import com.utkarsh.util.SecurityUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -34,11 +37,41 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public Page<ExpenseResponseDto> getExpensesByUser(Long userId, int page, int size) {
+    public List<ExpenseResponseDto> getExpensesForCurrentUser() {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("expenseDate").descending());
+        String email = SecurityUtil.getLoggedInUserEmail();
 
-        Page<Expense> expensePage = expenseRepository.findByUserId(userId, pageable);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Expense> expenses = expenseRepository.findByUserId(user.getId());
+
+        return expenses.stream()
+                .map(expense -> new ExpenseResponseDto(
+                        expense.getId(),
+                        expense.getTitle(),
+                        expense.getAmount(),
+                        expense.getCategory(),
+                        expense.getExpenseDate()
+                ))
+                .toList();
+    }
+
+    @Override
+    public Page<ExpenseResponseDto> getPagedExpensesForCurrentUser(int page,  int size) {
+
+        String email = SecurityUtil.getLoggedInUserEmail();
+
+        User user = userRepository.findByEmail(email).orElseThrow(() ->
+                new RuntimeException("User not found"));
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by("expenseDate").descending()
+        );
+        Page<Expense> expensePage =
+                expenseRepository.findByUserId(user.getId(), pageable);
         return expensePage.map(expense ->
                 new ExpenseResponseDto(
                         expense.getId(),
