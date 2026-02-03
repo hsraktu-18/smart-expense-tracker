@@ -28,13 +28,17 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public Expense addExpense(Long userId, Expense expense) {
+    public Expense addExpenseForCurrentUser(Expense expense) {
 
-        User user = userRepository.findById(userId)
+        String email = SecurityUtil.getLoggedInUserEmail();
+
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
         expense.setUser(user);
         return expenseRepository.save(expense);
     }
+
 
     @Override
     public List<ExpenseResponseDto> getExpensesForCurrentUser() {

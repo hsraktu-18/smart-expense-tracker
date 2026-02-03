@@ -20,11 +20,11 @@ public class ExpenseController {
         this.expenseService = expenseService;
     }
 
-    @PostMapping("/user/{userId}")
+    @PostMapping
     public ResponseEntity<Expense> addExpense(
-            @PathVariable Long userId, @RequestBody Expense expense){
+             @RequestBody Expense expense){
 
-        Expense savedExpense = expenseService.addExpense(userId, expense);
+        Expense savedExpense = expenseService.addExpenseForCurrentUser(expense);
         return new ResponseEntity<>(savedExpense, HttpStatus.CREATED);
     }
 
