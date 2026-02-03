@@ -2,19 +2,13 @@ package com.utkarsh.dto;
 
 public class LoginResponseDto {
 
-    private String message;
-    private Long userId;
+    private String token;
 
-    public LoginResponseDto(String message, Long userId) {
-        this.message = message;
-        this.userId = userId;
+    public LoginResponseDto(String token) {
+        this.token = token;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public Long getUserId() {
-        return userId;
+    public String getToken(){
+        return token;
     }
 }

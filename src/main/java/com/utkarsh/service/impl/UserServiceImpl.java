@@ -7,6 +7,7 @@ import com.utkarsh.entity.User;
 import com.utkarsh.exception.EmailAlreadyExistsException;
 import com.utkarsh.repository.UserRepository;
 import com.utkarsh.service.UserService;
+import com.utkarsh.util.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,8 @@ public class UserServiceImpl implements UserService {
         if (!passwordMatched){
             throw new RuntimeException("Invalid email or password");
         }
-        return new LoginResponseDto("Login successful", user.getId());
+
+        String token = JwtUtil.generateToken(user.getEmail());
+        return new LoginResponseDto(token);
     }
 }
