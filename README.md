@@ -1,21 +1,22 @@
 # 💰 Smart Expense Tracker – Backend REST API
 
 ## 📌 Project Overview
-Smart Expense Tracker is a **secure, production-oriented backend REST API** built using Spring Boot that enables users to manage personal expenses in a multi-user environment.
-The project focuses on **real-world backend challenges** such as secure authentication, authorization, user-scoped data access, pagination, and clean API design—similar to enterprise-grade financial systems.
+**Smart Expense Tracker** is a **production-ready backend REST API** built using **Spring Boot** that enables users to securely manage personal expenses in a multi-user environment.
+The project focuses on **real-world backend engineering concerns** such as authentication, secure user-scoped data access, pagination, exception handling, CI/CD, and cloud deployment—similar to enterprise financial systems.
 
 ---
 
 ## 🚀 Key Features
-- Secure user registration & login
-- Authentication & authorization using Spring Security
-- Password encryption using BCrypt
-- Logged-in user–based data access (no userId exposure)
-- Add & retrieve expenses scoped to authenticated users
-- Pagination & sorting for scalable expense retrieval
+- User registration & login
+- Secure authentication using JWT
+- Password hashing with BCrypt
+- User-scoped expense management (no userId exposure)
+- Add & retrieve expenses for logged-in users
+- Pagination & sorting for large datasets
 - DTO-based API design (no entity leakage)
 - Global exception handling
-- Clean, maintainable layered architecture
+- CI/CD pipeline with GitHub Actions
+- Deployed on Render (Dockerized)
 
 ---
 
@@ -25,6 +26,10 @@ The project focuses on **real-world backend challenges** such as secure authenti
 - Spring Security
 - Spring Data JPA
 - PostgreSQL
+- JWT (JJWT)
+- Docker
+- GitHub Actions (CI)
+- Render (Cloud Deployment)
 - Maven
 - Postman (API testing)
 
@@ -51,9 +56,7 @@ PostgreSQL
 2. **Login:**
    - User sends POST /api/users/login with email & password
    - Spring Security validates credentials via UserDetailsService
-   - JWT generated with claims (userId, email, roles)
-   - JWT signed using HMAC-SHA256 algorithm
-   - Token returned to client in response body
+   - JWT generated and returned
 
 3. **Authorized Requests:**
    - Client includes JWT in Authorization header as "Bearer <token>"
